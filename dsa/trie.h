@@ -5,4 +5,8 @@
 
 dsa_errno_t trie_insert_word(char *new_word);
 
+#ifdef DEBUG
+dsa_errno_t trie_debug_print_all();
+#endif
+
 #endif

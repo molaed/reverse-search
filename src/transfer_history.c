@@ -1,0 +1,1 @@
+void transfer_history_stub() {}

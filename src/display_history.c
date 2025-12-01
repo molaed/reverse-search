@@ -1,0 +1,1 @@
+void display_history_stub() {}

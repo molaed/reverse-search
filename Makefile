@@ -6,8 +6,11 @@ all: generate build
 
 rebuild: update generate build
 
+debug: update debug_mode generate build
+
 $(MAKEFILE_DIR)/build/CMakeCache.txt: $(REVERSE_SEARCH)
-	cmake -S $(MAKEFILE_DIR) -B $(MAKEFILE_DIR)/build/
+
+	cmake -S $(MAKEFILE_DIR) -B $(MAKEFILE_DIR)/build/ $(DEBUG_FLAG)
 
 $(BINARY): $(REVERSE_SEARCH)
 	echo "building binary"
@@ -17,6 +20,9 @@ update:
 	touch $(MAKEFILE_DIR)/CMakeLists.txt
 
 generate: $(MAKEFILE_DIR)/build/CMakeCache.txt
+
+debug_mode: 
+	$(MAKE) generate DEBUG_FLAG:='-DDEBUG:int=1'
 
 build: $(BINARY)
 
