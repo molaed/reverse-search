@@ -1,10 +1,10 @@
+#include <errno>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "dsa/dsa_errno.h"
 #include "dsa/trie.h"
 
 // If a string has children, it is unlikely to be sparse
@@ -32,7 +32,7 @@ static struct Node root = {
     .children = NULL,
 };
 
-dsa_errno_t trie_insert_word(char *new_word) {
+uint8_t trie_insert_word(char *new_word) {
     struct Node *cur = &root;
 
     for (size_t i = 0; i < strlen(new_word); i++) {
@@ -51,7 +51,7 @@ dsa_errno_t trie_insert_word(char *new_word) {
 
                 if (tmp == NULL) {
                     free(cur->children);
-                    return DSA_OUT_OF_MEM; // catastrophic failure, delete entire tree
+                    return ENOMEM; // catastrophic failure, delete entire tree
 
                 } else {
                     cur->children = tmp;
@@ -77,18 +77,18 @@ dsa_errno_t trie_insert_word(char *new_word) {
 
     cur->is_end_of_word = true;
 
-    return DSA_NO_ERR;
+    return 0;
 }
 
 #ifdef DEBUG
-static dsa_errno_t trie_debug_print_all_recursive(struct Node *node);
+static uint8_t trie_debug_print_all_recursive(struct Node *node);
 
-dsa_errno_t trie_debug_print_all() {
+uint8_t trie_debug_print_all() {
     return trie_debug_print_all_recursive(&root);
 }
 
-static dsa_errno_t trie_debug_print_all_recursive(struct Node *node) {
-    dsa_errno_t ret = DSA_NO_ERR;
+static uint8_t trie_debug_print_all_recursive(struct Node *node) {
+    uint8_t ret = 0;
     if (node == NULL) return ret;
 
     printf("letter: %c, num_children: %ld, word_end: %s\n", 

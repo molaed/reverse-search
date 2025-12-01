@@ -3,10 +3,10 @@
 
 #include "dsa/dsa_errno.h"
 
-dsa_errno_t trie_insert_word(char *new_word);
+uint8_t trie_insert_word(char *new_word);
 
 #ifdef DEBUG
-dsa_errno_t trie_debug_print_all();
+uint8_t trie_debug_print_all();
 #endif
 
 #endif
